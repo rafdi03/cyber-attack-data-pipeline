@@ -1,83 +1,82 @@
-Tentu, ini adalah draf README.md yang sangat detail dan profesional, dirancang khusus untuk menonjolkan kemampuan teknis kamu sebagai Data Engineer sekaligus pemahaman analitis kamu terhadap data bisnis. Dokumen ini sangat cocok untuk dipamerkan kepada recruiter di perusahaan besar seperti Astra atau FMCG.
+# 🛡️ Cyber-Financial Resilience & Market Dynamics Pipeline
 
-🛡️ Cyber Attack Financial & Market Impact Pipeline
-End-to-End Data Engineering & Business Intelligence Suite
-📌 Gambaran Umum Proyek
-Proyek ini mengintegrasikan data terstruktur mengenai serangan siber global utama antara tahun 2021 dan 2025. Fokus utama adalah pada kerugian finansial dan reaksi pasar saham pasca-insiden. Pipeline ini mengubah data mentah menjadi wawasan bisnis yang siap dianalisis untuk mendukung pengambilan keputusan strategis dalam manajemen risiko siber.
+### *Distributed Data Engineering Suite: From Raw Ingestion to Executive Intelligence*
 
-Tujuan utama dari proyek ini adalah membangun portofolio yang membuktikan kompetensi dalam mengelola siklus hidup data (Data Lifecycle) dari hulu ke hilir dalam waktu singkat.
+## 🌐 Project Overview
 
-🏗️ Arsitektur Data (Medallion Architecture)
-Sistem ini menggunakan pendekatan Medallion Architecture untuk menjamin integritas dan kualitas data di setiap tahapannya:
+This enterprise-grade pipeline orchestrates the ingestion, transformation, and visualization of global cyber-attack data (2021-2025). Processing over **$55B** in cumulative financial impact, the system utilizes a **Medallion Architecture** to convert high-variance raw signals into structured, business-ready intelligence.
 
-Bronze Layer (Raw):
+The core objective is to bridge the gap between **Security Telemetry** and **Corporate Finance**, providing stakeholders with a granular view of sectoral risk and market volatility.
 
-Data mentah dikumpulkan dari 3 sumber utama: incidents_master.csv, financial_impact.csv, dan market_impact.csv.
+## 🏗️ Technical Architecture: The Medallion Model
 
-Berisi 850+ insiden siber terdokumentasi dengan metrik mentah yang belum terolah.
+The pipeline is engineered for horizontal scalability and data integrity, leveraging the distributed computing power of **Apache Spark**.
 
-Silver Layer (Cleansing & Integration):
+### 1. 🟤 Bronze Layer (Ingestion)
 
-Pemrosesan menggunakan Apache Spark untuk menangani skalabilitas.
+* **Source:** Multi-source CSV ingestion (Incidents Master, Financial Impact, Market Impact).
+* **Mechanism:** Automated schema inference with Spark’s CSV reader.
 
-Melakukan Multi-Join antar dataset menggunakan incident_id sebagai Primary Key.
+### 2. 🥈 Silver Layer (Integration & Cleansing)
 
-Penanganan duplikasi kolom (stock_ticker, notes) dan standarisasi tipe data.
+* **Distributed Joins:** Implemented a multi-stage **Left Join** on `incident_id` across three disparate datasets.
+* **Schema Hygiene:** Systematic resolution of **Ambiguous Column Conflicts** (e.g., `stock_ticker`, `notes`, `created_at`) through targeted drops and aliasing to ensure downstream RDBMS compatibility.
+* **Storage:** Data is persisted in **Parquet** format, utilizing columnar storage for 10x faster query performance compared to row-based formats.
 
-Penyimpanan ke format Parquet untuk kompresi maksimal dan efisiensi query.
+### 3. 🥇 Gold Layer (Enrichment & Business Logic)
 
-Gold Layer (Business Ready):
+* **Data Enrichment:** Dynamic industry mapping from NAICS-based codes to functional business sectors (e.g., "51"  "Information/Tech").
+* **Serving Layer:** Automated synchronization with **PostgreSQL** via JDBC, establishing a centralized *Source of Truth* for business consumers.
 
-Data Enrichment: Melakukan pemetaan (mapping) kode industri menjadi nama sektor yang ramah bisnis.
+## 🧠 Statistical Deep Dive: The "Fat-Tailed" Challenge
 
-Business Logic: Penerapan aturan klasifikasi tingkat keparahan (Severity Tiering) otomatis.
+Predicting cyber-loss is structurally difficult. This project rejects naive linear regression in favor of **Tiered Classification**, addressing the following mathematical realities:
 
-Pemuatan data ke PostgreSQL sebagai Serving Layer yang aman dan terstruktur.
+* **Extreme Skewness:** Financial loss data exhibits a **Fat-Tailed** distribution. A standard Mean Squared Error (MSE) loss function would be dominated by rare "Black Swan" events, leading to poor generalization.
+* **The Logic:** We implement a **Severity Tiering Algorithm** defined as:
 
-🧠 Analisis Teknis: Tantangan "Fat-Tailed Distribution"
-Proyek ini mengadopsi pendekatan Severity Classification (Tiering) daripada regresi linier sederhana. Keputusan arsitektur ini diambil berdasarkan karakteristik struktural data kerugian siber:
 
-Masalah Distribusi: Data kerugian finansial memiliki sifat Fat-Tailed (distribusi miring ke kanan secara ekstrem). Segelintir insiden "Black Swan" memiliki dampak ribuan kali lebih besar dari rata-rata, sehingga model regresi tradisional cenderung mengalami overfitting.
+* **Outcome:** By pivoting from regression to ordinal classification, the pipeline provides a stable, actionable risk framework for decision-makers.
 
-Low Signal-to-Noise Ratio: Fitur profil perusahaan seringkali tidak berkorelasi langsung dengan nilai kerugian pasti karena variabel eksternal (kualitas respon insiden, asuransi, sentimen publik).
+## 📊 Analytics & Executive Control Plane
 
-Solusi: Dengan mengklasifikasikan kerugian ke dalam kategori (Medium, High, Critical), sistem memberikan informasi yang lebih stabil dan berguna bagi manajemen untuk memprioritaskan anggaran keamanan siber.
+The frontend is a high-performance **Streamlit** application designed for "Slicing and Dicing" data at scale:
 
-📊 Fitur Dashboard (Streamlit & Plotly)
-Dashboard interaktif ini dirancang untuk memberikan wawasan cepat bagi eksekutif maupun analisis mendalam bagi analis risiko:
+* **Geospatial Intelligence:** Interactive **Choropleth Maps** identifying global threat concentrations.
+* **Market Volatility Analysis:** Tracking the **1-Day Abnormal Return** of public companies post-disclosure.
+* **Operational Metrics:** Real-time correlation analysis between **Downtime Hours** and **Total Financial Loss**.
 
-Executive KPIs: Menampilkan Total Kerugian ($55B+), rata-rata downtime, dan dampak pasar secara real-time dari database.
+## 🛠️ Performance Tech Stack
 
-Global Attack Map: Visualisasi distribusi serangan berdasarkan lokasi kantor pusat perusahaan.
+* **Engine:** Apache Spark 3.5.0 (PySpark).
+* **Database:** PostgreSQL (Serving Layer).
+* **Frontend:** Streamlit & Plotly Express.
+* **Environment:** Linux (WSL2) with Zsh Optimization.
 
-Correlation Plot: Analisis hubungan antara jam downtime dengan besaran kerugian finansial.
+## 🚀 How to Deploy
 
-Time-Series Trend: Melacak frekuensi serangan dari bulan ke bulan untuk melihat pola musiman.
-
-Sector Slicing: Filter dinamis untuk membedah data per industri (misalnya: Manufacturing, Finance, atau Information Technology).
-
-🛠️ Tech Stack
-Language: Python 3.10+.
-
-Big Data Engine: Apache Spark (PySpark).
-
-Database: PostgreSQL.
-
-Visualization: Streamlit, Plotly, & Pandas.
-
-Environment: Linux Ubuntu (WSL2) & Zsh.
-
-⚙️ Cara Menjalankan
-Pastikan PostgreSQL sudah terinstal dan database cyber_db telah dibuat.
-
-Install dependensi: pip install pyspark streamlit pandas sqlalchemy psycopg2-binary plotly.
-
-Jalankan pipeline pengolahan data:
-
-Bash
+1. **Initialize Database:** Ensure a PostgreSQL instance is running with `cyber_db` initialized.
+2. **Dependencies:** `pip install pyspark streamlit pandas sqlalchemy psycopg2-binary plotly`.
+3. **Execute Pipeline:** ```zsh
 spark-submit --jars postgresql-42.7.2.jar gold_pipeline.py
-Buka dashboard:
+```
 
-Bash
+```
+
+
+4. **Boot Dashboard:**
+```zsh
 streamlit run app.py
-Author: Rafdi
+
+```
+
+<img width="1916" height="948" alt="image" src="https://github.com/user-attachments/assets/258fad05-9c49-478e-bc29-ee8040e6f474" />
+
+
+---
+
+**Developer Profile:** **Rafdi** | Data Engineer 2026 🎯
+*Focused on architecting resilient data systems for high-stakes financial environments.*
+
+---
+
