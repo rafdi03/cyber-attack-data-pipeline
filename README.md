@@ -59,10 +59,6 @@ The frontend is a high-performance **Streamlit** application designed for "Slici
 2. **Dependencies:** `pip install pyspark streamlit pandas sqlalchemy psycopg2-binary plotly`.
 3. **Execute Pipeline:** ```zsh
 spark-submit --jars postgresql-42.7.2.jar gold_pipeline.py
-```
-
-```
-
 
 4. **Boot Dashboard:**
 ```zsh
