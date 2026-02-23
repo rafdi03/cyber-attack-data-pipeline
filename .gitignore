@@ -1,0 +1,16 @@
+# Python virtual environment
+spark_env/
+__pycache__/
+
+# Spark temporary files
+spark-warehouse/
+derby.log
+metastore_db/
+
+# Data and Drivers (karena file ini besar/sensitif)
+data/*.csv
+data/processed_cyber_report/
+postgresql-42.7.2.jar
+
+# Credentials (jika ada)
+.env
